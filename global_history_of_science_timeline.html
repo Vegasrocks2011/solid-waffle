@@ -1,0 +1,295 @@
+
+<style>
+* { box-sizing: border-box; }
+.wrap { padding: 1.5rem 0; color: var(--color-text-primary); font-size: 15px; }
+.intro { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: var(--color-background-secondary); border-radius: var(--border-radius-md); }
+.filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; align-items: center; }
+.filter-label { font-size: 12px; color: var(--color-text-secondary); margin-right: 2px; }
+.fbtn { font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); cursor: pointer; background: var(--color-background-primary); color: var(--color-text-secondary); transition: all 0.12s; display: flex; align-items: center; gap: 5px; }
+.fbtn.on { background: var(--color-background-secondary); color: var(--color-text-primary); font-weight: 500; border-color: var(--color-border-primary); }
+.fbtn .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.tl { position: relative; padding-left: 32px; }
+.tl::before { content: ''; position: absolute; left: 12px; top: 0; bottom: 0; width: 1.5px; background: var(--color-border-secondary); }
+.tl-item { position: relative; margin-bottom: 1.25rem; }
+.tl-item.hidden { display: none; }
+.tl-dot { position: absolute; left: -24px; top: 5px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid; background: var(--color-background-primary); cursor: pointer; transition: transform 0.15s; flex-shrink: 0; }
+.tl-item:hover .tl-dot { transform: scale(1.3); }
+.tl-head { cursor: pointer; }
+.tl-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; flex-wrap: wrap; }
+.tl-date { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); }
+.tl-region { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+.tl-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; line-height: 1.35; }
+.tl-person { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 0; }
+.tl-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.65; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, opacity 0.25s; opacity: 0; padding-right: 4px; }
+.tl-body.open { max-height: 400px; opacity: 1; margin-top: 8px; }
+.tl-quote { font-style: italic; border-left: 2px solid; padding-left: 10px; margin: 8px 0; font-size: 13px; line-height: 1.6; }
+.tl-connect { margin-top: 8px; font-size: 12px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 6px 10px; line-height: 1.5; }
+.tl-connect strong { color: var(--color-text-primary); }
+.key-idea { display: inline-block; background: var(--color-background-secondary); border-radius: 20px; font-size: 11px; padding: 2px 8px; color: var(--color-text-secondary); margin: 4px 4px 0 0; }
+.era-marker { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; color: var(--color-text-secondary); padding: 6px 0 6px 0; margin-bottom: 0.5rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.key-q { margin-top: 1.5rem; border-left: 3px solid #378ADD; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 0.75rem 1rem; background: #E6F1FB; font-size: 13px; color: #0C447C; line-height: 1.7; }
+.legend { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--color-text-secondary); }
+.leg-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+.islamic { --c: #1D9E75; --cb: #E1F5EE; --ct: #085041; }
+.greek { --c: #7F77DD; --cb: #EEEDFE; --ct: #3C3489; }
+.chinese { --c: #E24B4A; --cb: #FCEBEB; --ct: #791F1F; }
+.indian { --c: #EF9F27; --cb: #FAEEDA; --ct: #633806; }
+.western { --c: #378ADD; --cb: #E6F1FB; --ct: #0C447C; }
+.global { --c: #D4537E; --cb: #FBEAF0; --ct: #72243E; }
+
+.tl-item .tl-dot { border-color: var(--c); }
+.tl-region { background: var(--cb); color: var(--ct); }
+.tl-quote { border-color: var(--c); color: var(--ct); }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Global history of science — interactive timeline</h2>
+
+  <div class="intro">
+    The story of science is not a western story. It is a global conversation across centuries, civilisations and languages. Each tradition built on what came before — often across cultural boundaries that were more porous than we assume. Tap any entry to expand it.
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><span class="leg-dot" style="background:#7F77DD"></span>Greek / classical</div>
+    <div class="leg-item"><span class="leg-dot" style="background:#EF9F27"></span>Indian</div>
+    <div class="leg-item"><span class="leg-dot" style="background:#E24B4A"></span>Chinese</div>
+    <div class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>Islamic Golden Age</div>
+    <div class="leg-item"><span class="leg-dot" style="background:#378ADD"></span>European / western</div>
+    <div class="leg-item"><span class="leg-dot" style="background:#D4537E"></span>Global / shared</div>
+  </div>
+
+  <div class="filter-row">
+    <span class="filter-label">Show:</span>
+    <button class="fbtn on" onclick="filterTl('all',this)"><span class="dot" style="background:#888"></span>All traditions</button>
+    <button class="fbtn greek" onclick="filterTl('greek',this)"><span class="dot" style="background:#7F77DD"></span>Greek</button>
+    <button class="fbtn indian" onclick="filterTl('indian',this)"><span class="dot" style="background:#EF9F27"></span>Indian</button>
+    <button class="fbtn chinese" onclick="filterTl('chinese',this)"><span class="dot" style="background:#E24B4A"></span>Chinese</button>
+    <button class="fbtn islamic" onclick="filterTl('islamic',this)"><span class="dot" style="background:#1D9E75"></span>Islamic</button>
+    <button class="fbtn western" onclick="filterTl('western',this)"><span class="dot" style="background:#378ADD"></span>Western</button>
+  </div>
+
+  <div class="tl" id="timeline">
+
+    <div class="era-marker">Ancient world — foundations</div>
+
+    <div class="tl-item greek" data-cat="greek">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">~300 BCE</span><span class="tl-region">Greece / Alexandria</span></div>
+        <div class="tl-title">Systematic observation and logical proof</div>
+        <div class="tl-person">Aristotle, Euclid, Archimedes</div>
+      </div>
+      <div class="tl-body">
+        Aristotle developed the idea that knowledge of the natural world should come from careful observation — not just from reasoning alone. Euclid formalised mathematical proof. Archimedes built physical experiments. Together they established the idea that claims about nature can be tested and demonstrated.
+        <div class="tl-quote">"The roots of education are bitter, but the fruit is sweet." — Aristotle</div>
+        <div class="tl-connect"><strong>But note the limit:</strong> Aristotle still believed in reasoning from first principles — if the logic was right, the conclusion must be true, regardless of what observation showed. It would take another thousand years to fully break from this.</div>
+        <span class="key-idea">observation</span><span class="key-idea">logical proof</span>
+      </div>
+    </div>
+
+    <div class="tl-item indian" data-cat="indian">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">~600 BCE – 500 CE</span><span class="tl-region">India</span></div>
+        <div class="tl-title">Rigorous logic, mathematics and the concept of zero</div>
+        <div class="tl-person">Aryabhata, Brahmagupta, the Nyaya school</div>
+      </div>
+      <div class="tl-body">
+        Indian scholars developed sophisticated systems of logic and epistemology (theories of how we know things) centuries before the European Enlightenment. The Nyaya school asked: what counts as valid evidence? How do we distinguish perception, inference and testimony? Brahmagupta formalised the concept of zero and negative numbers — without which modern mathematics and computing are impossible. Aryabhata calculated the Earth's circumference and proposed heliocentrism a thousand years before Copernicus.
+        <div class="tl-quote">"Just as a lamp illuminates a room, mathematical knowledge illuminates the mind." — Aryabhata</div>
+        <div class="tl-connect"><strong>Connection to modern science:</strong> The decimal number system used in all modern science — including genetics statistics and population biology — is of Indian origin, transmitted to Europe via the Islamic world.</div>
+        <span class="key-idea">epistemology</span><span class="key-idea">zero and mathematics</span><span class="key-idea">heliocentrism</span>
+      </div>
+    </div>
+
+    <div class="tl-item chinese" data-cat="chinese">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">~200 BCE – 1000 CE</span><span class="tl-region">China</span></div>
+        <div class="tl-title">Technology, empiricism and practical knowledge</div>
+        <div class="tl-person">Various — no single author tradition</div>
+      </div>
+      <div class="tl-body">
+        Chinese science was characterised by deep empirical observation in service of practical ends — agriculture, medicine, engineering. Paper, printing, gunpowder and the compass were all Chinese innovations that transformed the world. Chinese medicine developed sophisticated observational traditions — including inoculation against smallpox centuries before Jenner. The Needham Question — "why did modern science emerge in Europe and not China?" — remains one of the most debated questions in the history of science.
+        <div class="tl-connect"><strong>On the Needham Question:</strong> China had superior technology for centuries. Some historians argue the absence of a culture of public debate and peer challenge — where others could scrutinise and falsify your claims — meant knowledge accumulated without the self-correcting mechanism that Popper later identified as essential. This is contested but worth discussing.</div>
+        <span class="key-idea">practical empiricism</span><span class="key-idea">inoculation</span><span class="key-idea">Needham Question</span>
+      </div>
+    </div>
+
+    <div class="era-marker" style="margin-top:1.5rem;">750 – 1258 CE — the Islamic Golden Age</div>
+
+    <div class="tl-item islamic" data-cat="islamic">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">~830 CE</span><span class="tl-region">Baghdad — House of Wisdom</span></div>
+        <div class="tl-title">The world's first research institution</div>
+        <div class="tl-person">Caliph al-Ma'mun — Bayt al-Hikma</div>
+      </div>
+      <div class="tl-body">
+        The House of Wisdom in Baghdad was the intellectual centre of the world for over 400 years. Scholars translated Greek, Indian and Persian texts — then went far beyond them. The institution brought together Muslims, Christians, Jews and scholars of many backgrounds. It was explicitly multicultural and multilingual. Science was understood as a religious duty — the Quran's repeated exhortations to observe, reflect and reason were taken seriously as a mandate for inquiry.
+        <div class="tl-quote">"Seek knowledge, even unto China." — Hadith attributed to the Prophet Muhammad</div>
+        <div class="tl-connect"><strong>Why this matters:</strong> The Islamic world did not merely preserve Greek knowledge — it systematically extended and corrected it. When European universities emerged in the 12th century, their curricula were built largely on Islamic scholarship, often still in Arabic.</div>
+        <span class="key-idea">translation movement</span><span class="key-idea">'ilm — knowledge as duty</span>
+      </div>
+    </div>
+
+    <div class="tl-item islamic" data-cat="islamic">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">780 – 850 CE</span><span class="tl-region">Baghdad</span></div>
+        <div class="tl-title">Algebra and the algorithm — the language of modern genetics</div>
+        <div class="tl-person">Muhammad ibn Musa al-Khwarizmi</div>
+      </div>
+      <div class="tl-body">
+        Al-Khwarizmi's work Kitab al-mukhtasar fi hisab al-jabr wal-muqabala gave us the word algebra (from al-jabr). The word algorithm comes from the Latinisation of his own name. His systematic approach to solving equations created the mathematical framework that underpins modern computing, statistical genetics, bioinformatics and DNA sequencing analysis. Every time a genome is sequenced, algorithm-driven mathematics — rooted in his work — is doing the processing.
+        <div class="tl-connect"><strong>Direct relevance:</strong> Modern genetics is impossible without the mathematics al-Khwarizmi formalised. The sequencing of the human genome required algorithms running on computers. The connection from 9th century Baghdad to 21st century gene editing is direct and traceable.</div>
+        <span class="key-idea">algebra</span><span class="key-idea">algorithm</span><span class="key-idea">foundations of computing</span>
+      </div>
+    </div>
+
+    <div class="tl-item islamic" data-cat="islamic">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">965 – 1040 CE</span><span class="tl-region">Basra / Cairo</span></div>
+        <div class="tl-title">The experimental method — 600 years before Bacon</div>
+        <div class="tl-person">Ibn al-Haytham (Alhazen)</div>
+      </div>
+      <div class="tl-body">
+        Ibn al-Haytham's Book of Optics is one of the most important scientific works ever written — not primarily for what it discovered about light and vision, but for how it discovered it. He explicitly rejected the Greek method of reasoning from first principles. Instead he insisted: hypotheses must be tested through controlled experiment. Observations must be repeatable. The experimenter must control for variables. He documented his methods so others could reproduce his results. This is Popper's scientific method, implemented 900 years early.
+        <div class="tl-quote">"The seeker after truth is not one who studies the writings of the ancients and, following his natural disposition, puts his trust in them — but rather one who suspects his faith in them and questions what he gathers from them."</div>
+        <div class="tl-connect"><strong>The question your students should ask:</strong> If Ibn al-Haytham described the experimental method in 1011 CE, why do western histories of science credit Bacon in 1620? What does that gap tell us about how science history has been written?</div>
+        <span class="key-idea">experimental method</span><span class="key-idea">controlled experiment</span><span class="key-idea">replication</span>
+      </div>
+    </div>
+
+    <div class="tl-item islamic" data-cat="islamic">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">973 – 1048 CE</span><span class="tl-region">Central Asia / Persia</span></div>
+        <div class="tl-title">Eliminating observer bias — a medieval peer reviewer</div>
+        <div class="tl-person">Abu Rayhan al-Biruni</div>
+      </div>
+      <div class="tl-body">
+        Al-Biruni was obsessed with measurement precision and the elimination of error. He insisted that the observer's own assumptions and cultural background could distort findings — and developed methods to counteract this. He travelled extensively, studied cultures from the inside rather than from assumptions, and demanded that measurements be repeatable and independent. His approach to India (Kitab al-Hind) is considered one of the first works of anthropological methodology — applying scientific standards to the study of human cultures.
+        <div class="tl-connect"><strong>Connection to modern science:</strong> Al-Biruni's concern about observer bias maps directly onto the modern concepts of blinding in clinical trials and independent replication. His instinct that the researcher's assumptions can corrupt results is foundational to modern scientific method.</div>
+        <span class="key-idea">observer bias</span><span class="key-idea">measurement precision</span><span class="key-idea">independent verification</span>
+      </div>
+    </div>
+
+    <div class="tl-item islamic" data-cat="islamic">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">980 – 1037 CE</span><span class="tl-region">Persia</span></div>
+        <div class="tl-title">Clinical trials and evidence-based medicine</div>
+        <div class="tl-person">Ibn Sina — Avicenna</div>
+      </div>
+      <div class="tl-body">
+        Ibn Sina's Canon of Medicine was the standard medical textbook in European universities until the 17th century. But more important than its conclusions was its method. Ibn Sina described what we would now call clinical trial methodology: test treatments on multiple patients, require that results be reproducible, distinguish the effect of a drug from the natural course of the disease, and test on humans not just animals. He also described contagion — the idea that disease can be transmitted through water and soil — centuries before germ theory.
+        <div class="tl-quote">"Medicine is the science by which we learn the various states of the human body in health and when not in health."</div>
+        <div class="tl-connect"><strong>For your genetics unit:</strong> Modern genetic medicine — gene therapy, pharmacogenomics, CRISPR treatments — is evaluated through clinical trials. The methodology Ibn Sina described is the direct ancestor of how we test whether gene therapies actually work.</div>
+        <span class="key-idea">clinical trials</span><span class="key-idea">evidence-based medicine</span><span class="key-idea">contagion</span>
+      </div>
+    </div>
+
+    <div class="era-marker" style="margin-top:1.5rem;">1258 – 1600 — transmission and the European Renaissance</div>
+
+    <div class="tl-item global" data-cat="global">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">1258 CE</span><span class="tl-region">Baghdad</span></div>
+        <div class="tl-title">The fall of Baghdad — and the question of decline</div>
+        <div class="tl-person">Mongol invasion of the Abbasid Caliphate</div>
+      </div>
+      <div class="tl-body">
+        The Mongol sack of Baghdad in 1258 destroyed the House of Wisdom and is often cited as the end of the Islamic Golden Age. But historians debate this. Some argue the decline had begun earlier — that a shift toward more conservative theological authority had already begun to constrain open inquiry. Others argue the Golden Age continued in different centres (Cairo, Samarkand, Moorish Spain) for centuries after. The question of why scientific leadership passed to Europe is genuinely contested and has no simple answer.
+        <div class="tl-connect"><strong>The question worth asking:</strong> What conditions allow science to flourish — and what causes it to stagnate? This is directly relevant to today: the same question applies to any society that must balance religious authority, political power and scientific freedom.</div>
+        <span class="key-idea">conditions for science</span><span class="key-idea">paradigm collapse</span>
+      </div>
+    </div>
+
+    <div class="tl-item western" data-cat="western">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">12th – 13th century</span><span class="tl-region">Europe</span></div>
+        <div class="tl-title">European universities built on Islamic scholarship</div>
+        <div class="tl-person">Gerard of Cremona and the translation movement</div>
+      </div>
+      <div class="tl-body">
+        When European universities emerged — Bologna (1088), Oxford (1096), Paris (1150) — their curricula were built substantially on Arabic texts. Gerard of Cremona alone translated over 87 works from Arabic into Latin, including works by al-Khwarizmi, Ibn Sina and al-Biruni, as well as Greek works preserved and extended by Islamic scholars. The European Scientific Revolution did not emerge from nowhere — it emerged from direct engagement with Islamic science, usually without acknowledgement.
+        <div class="tl-connect"><strong>What this means:</strong> The "western" scientific tradition is not purely western. It is a synthesis — built on Greek foundations, extended enormously by Islamic scholarship, then developed further in Europe. The story only makes sense as a connected global narrative.</div>
+        <span class="key-idea">transmission</span><span class="key-idea">Latin translations</span>
+      </div>
+    </div>
+
+    <div class="era-marker" style="margin-top:1.5rem;">1600 – present — the modern scientific system</div>
+
+    <div class="tl-item western" data-cat="western">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">1620</span><span class="tl-region">England</span></div>
+        <div class="tl-title">Bacon formalises inductive method — building on what came before</div>
+        <div class="tl-person">Francis Bacon</div>
+      </div>
+      <div class="tl-body">
+        Bacon's contribution was real — he articulated and popularised the experimental method at a moment when European science was ready to accelerate. But he did not invent it. Ibn al-Haytham had described it 600 years earlier. What Bacon did was codify it in a European context and make it influential in the emerging institutions of European science. His work was itself built on a tradition of Islamic scholarship transmitted through Latin universities.
+        <div class="tl-connect"><strong>The uncomfortable truth:</strong> Western histories of science typically begin with Bacon as the "founder" of the scientific method. This is historically inaccurate. It reflects how science history has been written — by the winners of a particular cultural moment — rather than what actually happened.</div>
+        <span class="key-idea">inductive method</span><span class="key-idea">whose history?</span>
+      </div>
+    </div>
+
+    <div class="tl-item western" data-cat="western">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">1934</span><span class="tl-region">Vienna / London</span></div>
+        <div class="tl-title">Popper — falsifiability as the demarcation of science</div>
+        <div class="tl-person">Karl Popper</div>
+      </div>
+      <div class="tl-body">
+        Popper's contribution was to provide the clearest philosophical articulation of what distinguishes science from non-science: a claim is scientific only if it makes predictions that could in principle be proven wrong. This solved Hume's problem of induction and gave the scientific community a clear standard. But it is worth noting: Ibn al-Haytham's practice, al-Biruni's methodology and Ibn Sina's clinical standards were all implicitly Popperian — they just didn't have the vocabulary.
+        <div class="tl-quote">"A theory that explains everything explains nothing."</div>
+        <div class="tl-connect"><strong>For your students:</strong> Popper gave us the language. But the practice existed across multiple civilisations, centuries earlier. Science is a method that different human cultures have discovered independently — because it works.</div>
+        <span class="key-idea">falsifiability</span><span class="key-idea">a universal method</span>
+      </div>
+    </div>
+
+    <div class="tl-item global" data-cat="global">
+      <div class="tl-dot"></div>
+      <div class="tl-head" onclick="toggle(this)">
+        <div class="tl-meta"><span class="tl-date">Today</span><span class="tl-region">Global</span></div>
+        <div class="tl-title">Science is now a global, collaborative enterprise</div>
+        <div class="tl-person">The international scientific community</div>
+      </div>
+      <div class="tl-body">
+        The Human Genome Project involved researchers from 20 countries across 6 continents. The COVID-19 vaccines were developed by teams spanning the US, UK, Germany, India and China — sharing data in real time. CRISPR was developed simultaneously in the US and by Emmanuelle Charpentier working across Sweden and France. Modern science is not western science — it is human science, and it is genuinely global. The institutions (peer review, replication, open publication) are the inheritance of all the traditions on this timeline.
+        <div class="tl-connect"><strong>The question to end on:</strong> If science is a universal human method — discovered independently by multiple civilisations — what does that tell us about its relationship to culture, religion and identity? Can science belong to everyone equally?</div>
+        <span class="key-idea">global collaboration</span><span class="key-idea">science as human inheritance</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="key-q">
+    <strong>The question that connects everything:</strong> Ibn al-Haytham described the experimental method in 1011 CE. Bacon described it in 1620 CE. European universities were built on Arabic translations of Islamic science. Yet most science curricula credit the western tradition almost exclusively. Why — and what does that tell us about how knowledge and power interact? Does the method itself belong to any one culture?
+  </div>
+</div>
+
+<script>
+function toggle(headEl) {
+  const body = headEl.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+function filterTl(cat, btn) {
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.tl-item[data-cat]').forEach(item => {
+    if (cat === 'all' || item.dataset.cat === cat) {
+      item.classList.remove('hidden');
+    } else {
+      item.classList.add('hidden');
+    }
+  });
+}
+</script>
